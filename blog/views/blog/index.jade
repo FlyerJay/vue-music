@@ -7,7 +7,7 @@ block content
 	.container
 		#app
 			ul(v-for="x in colRange",v-bind:class="className")
-				li.bloglist-item(v-for='(index,item) in list' v-show='index%cols==(x-1)')
+				li.bloglist-item(v-for='(index,item) in list' v-show='index%cols==(x-1)' @click='viewDetail(item)')
 					.blog-title
 						|{{item.title}}
 					.publish-time
@@ -39,6 +39,11 @@ block content
 						this.colRange.push(i);
 					}
 					this.className = 'col-md-'+(12/this.cols);
+				},
+				viewDetail:function(item){
+					$.ajax({
+						
+					})
 				}
 			},
 			compiled:function(){

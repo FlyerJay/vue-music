@@ -9,9 +9,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getbloglist',function(req,res,next){
-	var page = req.query.page-0;
-	var pageSize = req.query.pageSize-0;
-	var start = (page-1)*(pageSize);
+	var page = req.query.page - 0;
+	var pageSize = req.query.pageSize - 0;
+	var start = (page - 1) * (pageSize);
 	var end = pageSize;
 	var querystring = 'select b.title,b.blog_id,b.summary,bc.category,b.publish_date,b.hit,b.image_url '+
 					  'from blogs b,blog_class bc '+
@@ -60,25 +60,16 @@ router.get('/getbloglist',function(req,res,next){
 	})
 })
 
-router.post('/getbloglist',function(req,res,next){
-	connect.query('select b.title,b.blog_id,b.summary,bc.category,b.publish_date,b.hit,b.image_url from blogs b,blog_class bc where b.category_id = bc.category_id',function(err,rows,fileds){
+router.get('/viewdetail',function(req,res,next){
+	var id = req.query.id;
+	var queryString = 'select * from blogs where blog_id = ?';
+	connect.query(queryString,[id],function(err,rows,fileds){
 		if(err){
-			next();
+			console.log(err);
+			next(err);
 		}else{
-			var bloglist = [];
-			for(var i=0;i<rows.length;i++){
-				var myblog = {};
-				myblog.title = rows[i].title;
-				myblog.blogId = rows[i].blog_id;
-				myblog.blogUrl = "../blog?blogId="+rows[i].blog_id;
-				myblog.summary = rows[i].summary;
-				myblog.time = rows[i].publish_date;
-				myblog.hit = rows[i].hit;
-				myblog.img = rows[i].image_url;
-				bloglist.push(myblog);
-			}
-			res.json(bloglist);
+			res.json(rows[0]);
 		}
-	});
+	})
 })
 module.exports = router;
