@@ -40,7 +40,6 @@
 		created:function(){
 			this.$http.jsonp('http://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg',{
 				params:{
-					format:'jsonp',
 					g_tk:5381,
 					uin:0,
 					format:'jsonp',
@@ -69,7 +68,8 @@
 		display: flex;
 		flex-direction: column;
 		list-style: none;
-		margin: 0px;
+		margin:0px;
+		margin-top:60px;
 	}
 	.rank-item{
 		display: flex;
