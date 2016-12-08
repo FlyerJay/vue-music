@@ -42,7 +42,11 @@ block content
 				},
 				viewDetail:function(item){
 					$.ajax({
-						
+						url:'blog/viewdetail?id='+item.blogId,
+						type:'GET',
+						success:function(result){
+							
+						}
 					})
 				}
 			},
