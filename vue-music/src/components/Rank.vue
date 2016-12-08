@@ -29,7 +29,7 @@
 		 	}
 		},
 		methods:{
-			showRank: id=> {
+			showRank: function(id){
 				this.topid = id;
 				this.isRankShow = true;
 			},
@@ -85,9 +85,18 @@
 		height: 100px;
 		position: relative;
 	}
+	.rank-media .listen-count{
+		color: #fff;
+		position: absolute;
+		z-index: 1;
+		bottom: 3px;
+		left: 5px;
+		font-size: 12px;
+	}
 	.rank-media img{
 		width: 100px;
 		height: 100px;
+		z-index: 0;
 	}
 	.rank-info{
 		display: flex;
