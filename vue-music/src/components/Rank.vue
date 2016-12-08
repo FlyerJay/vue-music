@@ -66,5 +66,48 @@
 <style scoped>
 	.rank ul{
 		padding:10px;
+		display: flex;
+		flex-direction: column;
+		list-style: none;
+		margin: 0px;
+	}
+	.rank-item{
+		display: flex;
+		flex-direction: row;
+		height: 100px;
+		overflow: hidden;
+		border-radius: 5px;
+		margin-bottom: 10px;
+		background-color: #fff;
+	}
+	.rank-media{
+		width: 100px;
+		height: 100px;
+		position: relative;
+	}
+	.rank-media img{
+		width: 100px;
+		height: 100px;
+	}
+	.rank-info{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		padding: 5px 10px;
+		overflow: hidden;
+	}
+	.rank-info p{
+		font-size: 14px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: left;
+		margin: 0px;
+		overflow:hidden;
+	}
+	.rank-info p.rank-title{
+		font-size: 16px;
+	}
+	.rank-songs span.rank-singername{
+		color:#999;
 	}
 </style>
