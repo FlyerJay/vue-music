@@ -70,6 +70,7 @@
 		list-style: none;
 		margin:0px;
 		margin-top:60px;
+		margin-bottom: 50px;
 	}
 	.rank-item{
 		display: flex;

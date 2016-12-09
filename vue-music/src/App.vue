@@ -4,22 +4,99 @@
     <transition name="rank-slide">
       <rank v-show='rankshow'></rank>
     </transition>
+    <transition name="play-slide" @:after-enter="showBlurBg" @:before-leave="hideBlurBg">
+      <play v-if="playPageShow"></play>
+    </transition>
+    <transition name="bar-slide">
+      <div id="play-bar" v-show="!playPageShow">
+        <audio id="music"
+               v-bind:src="dataUrl"
+               autoplay="autoplay"
+               @timeupdate="updateTime"
+               v-on:ended="playContinue"></audio>
+        <div class="play-bar-image-container" @touchstart="showPlayPage" @click="showPlayPage">
+          <img class="play-bar-image" v-bind:src="coverImgUrl">
+        </div>
+        <p class="play-bar-text" @touchstart="showPlayPage" @click="showPlayPage">{{song.name}}</p>
+        <img class="play-bar-button"
+             v-bind:src="playing?iconPause:iconPlay"
+             @touchend="tapButton"
+             @click="tapButton">
+      </div>
+    </transition>
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import Rank from './components/Rank'
 import Search from './components/Search'
+import Play from './components/Play'
+import {mapMutations, mapState} from 'vuex'
 
 export default {
   name: 'app',
   components: {
     Rank,
-    Search
+    Search,
+    Play
   },
   data () {
     return {
-      rankshow:true
+      rankshow:true,
+      playPageShow:false,
+      blurBgShow:false,
+      iconPlay: require('./assets/icon-play.png'),
+      iconPause: require('./assets/icon-pause.png'),
+    }
+  },
+  methods:{
+    tapButton:function(event){
+      event.preventDefault();
+      this.playing ? this.pause() : this.play()
+    },
+    showBlurBg:function(){
+      this.blurBgShow = true;
+    },
+    showPlayPage:function(){
+
+    },
+    updateTime:function(){
+
+    },
+    hideBlurBg:function(){
+      this.blurBgShow = false;
+    },
+    ...mapMutations([
+      'play', 'pause', 'playContinue'
+    ])
+  },
+  computed: {
+    ...mapState({
+      dataUrl (state) {
+        return 'http://ws.stream.qqmusic.qq.com/' + state.song.id + '.m4a?fromtag=46'
+      }
+    }),
+    ...mapState([
+      'playing', 'song', 'coverImgUrl'
+    ])
+  },
+  watch: {
+    playing: function (val) {
+      if (val) {
+        document.getElementById('music').play()
+      } else {
+        document.getElementById('music').pause()
+      }
+    },
+    song: function (song) {
+      this.$http.jsonp('http://120.27.93.97/weappserver/get_music_image.php', {
+        params: {
+          mid: song.mid
+        },
+        jsonp: 'callback'
+      }).then((response) => {
+        this.$store.state['coverImgUrl'] = response.data.url
+      })
     }
   }
 }
@@ -48,6 +125,37 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #000;
+  }
+
+  #play-bar{
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    z-index: 4;
+    background-color: #fff;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  img.play-bar-button{
+    width: 20px;
+    height: 20px;
+    float: right;
+    padding-right: 15px;
+  }
+  .play-bar-text{
+    flex-grow: 1;
+    margin-left:10px;
+    text-align: left;
+  }
+
+  #play-bar .play-bar-image{
+    width: 40px;
+    height: 40px;
+    padding-left: 15px;
   }
 
   .clearfix::before,.clearfix::after{

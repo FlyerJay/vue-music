@@ -255,6 +255,7 @@
 	.result{
 		margin-top: 60px;
 		font-size: 14px;
+		margin-bottom: 50px;
 	}
 	.result-group{
 		display: flex;
