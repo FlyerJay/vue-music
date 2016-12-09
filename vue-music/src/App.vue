@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="clearfix">
     <search @searchshow='rankshow=false' @searchhide='rankshow=true'></search>
     <transition name="rank-slide">
       <rank v-show='rankshow'></rank>
@@ -32,18 +32,33 @@ export default {
       margin: 0 auto;
     }
   }
-
+  *{
+    padding: 0px;
+    margin: 0px;
+  }
   body{
     margin: 0 auto;
     padding: 0px;
     background-color: #eee;
   }
+
   #app {
     font-family: 'Microsoft yahei', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #000;
+  }
+
+  .clearfix::before,.clearfix::after{
+    content: " ";
+    display: table;
+  }
+  .clearfix::after{
+    clear: both;
+  }
+  .clearfix{
+    *zoom:1;
   }
 
   .rank-slide-enter-active {
