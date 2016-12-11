@@ -59,7 +59,7 @@ const store = new Vuex.Store({
 	  	pause (state) {
 	    	state.playing = false
 	  	},
-	  	playFront (state) {
+	  	playPrev (state) {
 	    	state.index = (state.index - 1 + state.playList.length) % state.playList.length
 	    	state.song = state.playList[state.index]
 	  	},

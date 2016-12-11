@@ -126,6 +126,12 @@
 			  this.key = '';
 			  this.searchRes = null;
 			  this.$emit('searchhide');
+			},
+			play:function(index){
+				this.$store.commit("setPlayList",{
+					index:index,
+					list: this.searchRes.song.itemlist
+				});
 			}
 		},
 		created:function(){

@@ -1,10 +1,10 @@
 <template>
   <div id="app" class="clearfix">
-    <search @searchshow='rankshow=false' @searchhide='rankshow=true'></search>
+    <search v-show="!blurBgShow" @searchshow='rankshow=false' @searchhide='rankshow=true'></search>
     <transition name="rank-slide">
-      <rank v-show='rankshow'></rank>
+      <rank v-show='rankshow&&!blurBgShow'></rank>
     </transition>
-    <transition name="play-slide" @:after-enter="showBlurBg" @:before-leave="hideBlurBg">
+    <transition name="play-slide" v-on:after-enter="showBlurBg" v-on:before-leave="hideBlurBg">
       <play v-if="playPageShow"></play>
     </transition>
     <transition name="bar-slide">
@@ -58,10 +58,11 @@ export default {
       this.blurBgShow = true;
     },
     showPlayPage:function(){
-
+      this.playPageShow = true;
     },
     updateTime:function(){
-
+      this.$store.commit('updateCurrentTime', parseInt(document.getElementById('music').currentTime))
+      this.$store.commit('updateDuration', parseInt(document.getElementById('music').duration))
     },
     hideBlurBg:function(){
       this.blurBgShow = false;
@@ -133,11 +134,12 @@ export default {
     display: flex;
     flex-direction: row;
     height: 50px;
-    z-index: 4;
+    z-index: 2;
     background-color: #fff;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    max-width:68vh;
   }
 
   img.play-bar-button{
@@ -167,6 +169,31 @@ export default {
   }
   .clearfix{
     *zoom:1;
+  }
+
+  .play-slide-enter-active {
+    transition: all .2s ease;
+  }
+
+  .play-slide-leave-active {
+    transition: all .2s ease-out;
+  }
+
+  .play-slide-enter, .play-slide-leave-active {
+    /*margin-top: 100vh;*/
+    transform: translateY(100vh);
+  }
+
+  .bar-slide-enter-active {
+    transition: all .2s ease;
+  }
+
+  .bar-slide-leave-active {
+    transition: all .2s ease-out;
+  }
+
+  .bar-slide-enter, .bar-slide-leave-active {
+    margin-bottom: -50px;
   }
 
   .rank-slide-enter-active {
